@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/theming';
+
+
+// Define your light and dark themes
+$light-theme-primary: mat-palette($mat-indigo);
+$light-theme-accent: mat-palette($mat-pink, 500);
+$light-theme-warn: mat-palette($mat-red);
+
+$dark-theme-primary: mat-palette($mat-blue-grey);
+$dark-theme-accent: mat-palette($mat-light-blue, 500);
+$dark-theme-warn: mat-palette($mat-orange);
+
+// Light Theme
+$light-theme: mat-light-theme($light-theme-primary, $light-theme-accent, $light-theme-warn);
+
+// Dark Theme
+$dark-theme: mat-dark-theme($dark-theme-primary, $dark-theme-accent, $dark-theme-warn);
+
+// Include the default light theme
+@include angular-material-theme($light-theme);
+
+// Optional: You can define a class to apply the dark theme
+.dark-theme {
+  @include angular-material-theme($dark-theme);
+}

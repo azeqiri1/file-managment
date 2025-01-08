@@ -20,11 +20,10 @@ export class AuthService {
 
   login(username: string, password: string): Observable<any> {
     return this.mockApiService.login(username, password).pipe(
-      // Assuming successful login, store the user and token in localStorage
       tap(response => {
-        if (response.length > 0) { // User found
+        if (response.length > 0) { 
           const user = response[0];
-          const token = `${user.role}-token`;  // Simulate token generation
+          const token = `${user.role}-token`; 
           localStorage.setItem('currentUser', JSON.stringify({ ...user, token }));
           this.currentUserSubject.next({ ...user, token });
         }

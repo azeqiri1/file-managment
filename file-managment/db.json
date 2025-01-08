@@ -1,51 +1,138 @@
 {
-    "users": [
-      {
-        "id": 1,
-        "username": "admin",
-        "password": "admin123",
-        "role": "admin"
-      },
-      {
-        "id": 2,
-        "username": "user",
-        "password": "user123",
-        "role": "user"
-      }
-    ],
-    "folders": [
-      {
-        "id": 1,
-        "name": "Documents",
-        "parentId": null,
-        "children": [
-          {
-            "id": 2,
-            "name": "Work",
-            "parentId": 1,
-            "files": [
-              { "id": 1, "name": "Project Proposal.pdf", "size": "1.5 MB", "lastModified": "2025-01-05", "fileType": "pdf" },
-              { "id": 2, "name": "Meeting Notes.txt", "size": "200 KB", "lastModified": "2025-01-06", "fileType": "txt" }
-            ]
-          },
-          {
-            "id": 3,
-            "name": "Personal",
-            "parentId": 1,
-            "files": [
-              { "id": 3, "name": "Vacation Photos.zip", "size": "25 MB", "lastModified": "2025-01-03", "fileType": "zip" }
-            ]
-          }
-        ]
-      },
-      {
-        "id": 4,
-        "name": "Images",
-        "parentId": null,
-        "files": [
-          { "id": 4, "name": "Nature.jpg", "size": "4.3 MB", "lastModified": "2025-01-07", "fileType": "jpg" }
-        ]
-      }
-    ]
-  }
-  
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin123",
+      "role": "admin",
+      "token": "admin-token" 
+    },
+    {
+      "id": 2,
+      "username": "user",
+      "password": "user123",
+      "role": "user",
+      "token": "user-token" 
+    }
+  ],
+  "folders": [
+    {
+      "id": 1,
+      "name": "Documents",
+      "parentId": null,
+      "children": [
+        {
+          "id": 2,
+          "name": "Work",
+          "parentId": 1,
+          "files": [
+            { 
+              "id": 1, 
+              "name": "Project Proposal.pdf", 
+              "size": "1.5 MB", 
+              "lastModified": "2025-01-05", 
+              "fileType": "pdf", 
+              "tags": ["work", "important"], 
+              "shareableLink": "http://example.com/share/project-proposal"
+            },
+            { 
+              "id": 2, 
+              "name": "Meeting Notes.txt", 
+              "size": "200 KB", 
+              "lastModified": "2025-01-06", 
+              "fileType": "txt", 
+              "tags": ["work", "notes"]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Personal",
+          "parentId": 1,
+          "files": [
+            { 
+              "id": 3, 
+              "name": "Vacation Photos.zip", 
+              "size": "25 MB", 
+              "lastModified": "2025-01-03", 
+              "fileType": "zip",
+              "tags": ["personal", "vacation"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Images",
+      "parentId": null,
+      "files": [
+        { 
+          "id": 4, 
+          "name": "Nature.jpg", 
+          "size": "4.3 MB", 
+          "lastModified": "2025-01-07", 
+          "fileType": "jpg", 
+          "tags": ["nature", "landscape"]
+        }
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "id": 1,
+      "name": "work"
+    },
+    {
+      "id": 2,
+      "name": "important"
+    },
+    {
+      "id": 3,
+      "name": "personal"
+    },
+    {
+      "id": 4,
+      "name": "vacation"
+    },
+    {
+      "id": 5,
+      "name": "nature"
+    },
+    {
+      "id": 6,
+      "name": "landscape"
+    }
+  ],
+  "permissions": [
+    {
+      "id": 1,
+      "fileId": 1,
+      "allowedRoles": ["admin"]
+    },
+    {
+      "id": 2,
+      "fileId": 2,
+      "allowedRoles": ["admin", "user"]
+    },
+    {
+      "id": 3,
+      "fileId": 3,
+      "allowedRoles": ["user"]
+    }
+  ],
+  "realTimeUpdates": [
+    {
+      "id": 1,
+      "folderId": 1,
+      "lastUpdated": "2025-01-07T14:30:00",
+      "action": "update"
+    },
+    {
+      "id": 2,
+      "folderId": 2,
+      "lastUpdated": "2025-01-07T14:45:00",
+      "action": "addFile"
+    }
+  ]
+}

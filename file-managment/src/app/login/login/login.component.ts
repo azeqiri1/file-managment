@@ -1,19 +1,21 @@
-// src/app/login/login.component.ts
 
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms'; // Import Reactive Forms classes
-import { AuthService } from 'src/app/services/auth.service'; // AuthService to handle login logic
-import { Router } from '@angular/router'; // Router for navigation
+import { FormGroup, FormControl, Validators } from '@angular/forms'; 
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup; // Declare the form group
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router,private snackBar: MatSnackBar ) {}
 
   ngOnInit(): void {
     // Initialize the login form with form controls and validators
@@ -40,13 +42,18 @@ export class LoginComponent implements OnInit {
             // Navigate to the dashboard upon successful login
             this.router.navigate(['/dashboard']);
           }
-        } else {
-          alert('Invalid username or password'); // Alert for failed login
+        }  else {
+          // Show a toast notification if the login failed
+          this.snackBar.open('Perdorues/Fjalekalim i gabuar', 'Mbyll', {
+            duration: 3000, // Duration of the toast (in ms)
+            horizontalPosition: 'center', // Position horizontally
+            verticalPosition: 'top', // Position vertically (you can change it to 'bottom' if you prefer)
+            panelClass: ['error-toast'], // Custom class for styling the toast (optional)
+          });
         }
       },
       (error) => {
-        console.error('Login failed', error);
-        alert('An error occurred during login'); // Handle login error
+       
       }
     );
   }

@@ -1,11 +1,26 @@
-/* src/app/login/login.component.scss */
+
+.main{
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
 .login-container {
   display: flex;
+  height: 100%;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   background: #f4f4f9;
+ 
+}
+
+::ng-deep .error-toast {
+  background-color: #f44336; /* Red background (error color) */
+  color: white; /* White text color */
+  font-weight: bold; /* Optional: make text bold */
+  border-radius: 4px; /* Optional: round the corners */
 }
 
 .login-card {
@@ -21,15 +36,21 @@ mat-card-header {
   margin-bottom: 16px;
 }
 
+
+.error-toast {
+  background-color: #f44336; /* Red background */
+  color: white; /* White text */
+}
+
 mat-card-title {
-  padding-left: 92px;
+  padding-left: 82px;
   display: flex;
   justify-content: center;
   font-size: 30px;
   font-family: system-ui;
 
   font-weight: bold;
-  color: #474e77;
+  color: #490f94;
 }
 
 mat-card-subtitle {
@@ -42,9 +63,18 @@ mat-card-subtitle {
   color: #3a3a3a;
 }
 
-.full-width {
-  width: 100%;
-  margin-bottom: 16px;
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: black!important;
+}
+
+::ng-deep  .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #0000001f;
+}
+
+
+.c-width{
+  width: 341px !important;
 }
 
 .button-container {
@@ -53,6 +83,10 @@ mat-card-subtitle {
   margin-top: 16px;
 }
 
+.btn{
+  color: #197964;
+}
 button {
   width: 100%;
+}
 }
