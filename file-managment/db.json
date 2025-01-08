@@ -1,0 +1,51 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "username": "admin",
+        "password": "admin123",
+        "role": "admin"
+      },
+      {
+        "id": 2,
+        "username": "user",
+        "password": "user123",
+        "role": "user"
+      }
+    ],
+    "folders": [
+      {
+        "id": 1,
+        "name": "Documents",
+        "parentId": null,
+        "children": [
+          {
+            "id": 2,
+            "name": "Work",
+            "parentId": 1,
+            "files": [
+              { "id": 1, "name": "Project Proposal.pdf", "size": "1.5 MB", "lastModified": "2025-01-05", "fileType": "pdf" },
+              { "id": 2, "name": "Meeting Notes.txt", "size": "200 KB", "lastModified": "2025-01-06", "fileType": "txt" }
+            ]
+          },
+          {
+            "id": 3,
+            "name": "Personal",
+            "parentId": 1,
+            "files": [
+              { "id": 3, "name": "Vacation Photos.zip", "size": "25 MB", "lastModified": "2025-01-03", "fileType": "zip" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Images",
+        "parentId": null,
+        "files": [
+          { "id": 4, "name": "Nature.jpg", "size": "4.3 MB", "lastModified": "2025-01-07", "fileType": "jpg" }
+        ]
+      }
+    ]
+  }
+  
