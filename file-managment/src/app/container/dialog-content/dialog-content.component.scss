@@ -1,3 +1,33 @@
-.dialog-content{
-height:400px
+.dialog-content {
+  height: 280px;
+  width: 400px;
+  overflow-y: hidden !important;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #3c8dc488;
+  }
+  .content {
+    padding-top: 30px;
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .upload-button{
+    width: 100%;
+    background-color: #3c8dc488;
+  }
+  .dialog-footer {
+    padding-right: 24px;
+    justify-content: end;
+  }
+
+  .dialog-button{
+    background-color: #3c8dc488;
+    color: white;
+
+  }
 }

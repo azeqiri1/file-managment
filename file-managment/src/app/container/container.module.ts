@@ -19,7 +19,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MainComponent } from './main/main.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core'; 
 import { DialogContentComponent } from './dialog-content/dialog-content.component';
+import { LoadPreviewComponent } from './dialog-content/load-preview/load-preview.component';
 
 
 
@@ -28,7 +31,8 @@ import { DialogContentComponent } from './dialog-content/dialog-content.componen
   declarations: [
     DashboardComponent,
     MainComponent,
-    DialogContentComponent
+    DialogContentComponent,
+    LoadPreviewComponent
   ],
   imports: [
     CommonModule,
@@ -39,10 +43,12 @@ import { DialogContentComponent } from './dialog-content/dialog-content.componen
     FlexLayoutModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    MatOptionModule,
     MatDialogModule,
     MatSidenavModule,
     MatFormFieldModule,
     MatTreeModule,
+    MatSelectModule,
     MatListModule,
     MatSnackBarModule,
     MatIconModule,
