@@ -26,12 +26,26 @@ mat-sidenav {
   }
   
  
-  
+  .main-toolbar{
+    background-color: transparent !important;
+    border-bottom: 1px solid lightgray;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  }
+
+  .second-toolbar{
+    position: absolute;
+    top: 0px;
+    background-color: #343a40;
+    justify-content: end;
+
+  }
   
   /* Tree View Styling */
   mat-tree {
     margin-top: 20px; /* Space between toolbar and tree */
     font-family: 'Roboto', sans-serif; /* Smooth and modern font */
+        background-color: #343a40;
   }
   
   mat-tree-node {

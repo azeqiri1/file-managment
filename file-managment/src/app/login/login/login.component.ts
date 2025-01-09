@@ -43,12 +43,11 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/dashboard']);
           }
         }  else {
-          // Show a toast notification if the login failed
           this.snackBar.open('Perdorues/Fjalekalim i gabuar', 'Mbyll', {
-            duration: 3000, // Duration of the toast (in ms)
-            horizontalPosition: 'center', // Position horizontally
-            verticalPosition: 'top', // Position vertically (you can change it to 'bottom' if you prefer)
-            panelClass: ['error-toast'], // Custom class for styling the toast (optional)
+            duration: 3000, 
+            horizontalPosition: 'center', 
+            verticalPosition: 'top',
+            panelClass: ['error-toast'], 
           });
         }
       },

@@ -23,3 +23,66 @@ $dark-theme: mat-dark-theme($dark-theme-primary, $dark-theme-accent, $dark-theme
 .dark-theme {
   @include angular-material-theme($dark-theme);
 }
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+.mat-mdc-snack-bar-container
+.mdc-snackbar__surface {
+  background-color: lightgray !important;
+
+  .mdc-snackbar__label {
+    color: rgb(43, 43, 43);
+}
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/* STICKY FOOTER CODE from https://codepen.io/dezertdezine/pen/zKjggy */
+
+html {
+    height: 100%;  
+    font-family: sans-serif;
+    text-align: center;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;    
+    margin: 0;
+}
+
+header{
+    flex-shrink: 0;
+    background: yellowgreen;
+}
+
+
+footer{
+    flex-shrink: 0;
+    background: gray; 
+}

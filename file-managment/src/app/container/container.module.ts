@@ -14,15 +14,21 @@ import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatListModule } from '@angular/material/list';
-
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MainComponent } from './main/main.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { DialogContentComponent } from './dialog-content/dialog-content.component';
+
 
 
 
 @NgModule({
   declarations: [
-    DashboardComponent
+    DashboardComponent,
+    MainComponent,
+    DialogContentComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +38,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatButtonModule,
     FlexLayoutModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
+    MatDialogModule,
     MatSidenavModule,
     MatFormFieldModule,
     MatTreeModule,

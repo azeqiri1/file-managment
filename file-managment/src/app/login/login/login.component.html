@@ -23,7 +23,7 @@
           <!-- Bind to FormGroup -->
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>Fjalëkalimi</mat-label>
-            <input id="code" matInput [formControlName]="'password'">
+            <input id="code" matInput [formControlName]="'password'" type="password">
             <mat-icon style="color: gray;" matSuffix>vpn_key</mat-icon>
             <mat-error *ngIf="loginForm.get('password').hasError('required')">
               Fjalëkalimi është i gabuar!

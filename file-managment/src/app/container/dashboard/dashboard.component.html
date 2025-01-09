@@ -1,40 +1,46 @@
 <div class="full-container">
-    <mat-sidenav-container class="example-container">
+    <mat-sidenav-container class="example-container" [hasBackdrop]="false">
         <!-- Sidebar (Sidenav) -->
-        <mat-sidenav #sidenav mode="side" opened>
-          <mat-toolbar>Dashboard Sidebar</mat-toolbar>
+        <mat-sidenav  #sidenav mode="over" [opened]="isOpened">
+          <mat-toolbar class="second-toolbar">
+            <button mat-icon-button (click)="sidenav.toggle()">
+              <mat-icon style="color: gray;">menu</mat-icon>
+            </button>
+          </mat-toolbar>
           <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl">
             <!-- Folder nodes -->
             <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle (click)="onFolderClick(node, null)">
-              <mat-icon matTreeNodeToggle>{{ node.children && node.children.length > 0 ? 'folder' : 'insert_drive_file' }}</mat-icon>
+              <mat-icon style="color: gray;" matTreeNodeToggle>{{ node.children && node.children.length > 0 ? 'folder' : 'insert_drive_file' }}</mat-icon>
               {{ node.name }}
             </mat-tree-node>
           
             <!-- Nested folders (children) -->
             <mat-tree-node *matTreeNodeDef="let node; when: hasChild" (click)="onFolderClick(node, node.parentId ? node.parentId : null)" matTreeNodeToggle>
-              <mat-icon matTreeNodeToggle>{{ node.children && node.children.length > 0 ? 'folder_open' : 'insert_drive_file' }}</mat-icon>
+              <mat-icon style="color: gray;" matTreeNodeToggle>{{ node.children && node.children.length > 0 ? 'folder_open' : 'insert_drive_file' }}</mat-icon>
               {{ node.name }}
             </mat-tree-node>
           </mat-tree>
         </mat-sidenav>
       
         <!-- Main Content Area -->
-        <mat-sidenav-content>
-            <mat-toolbar color="primary">
-                <span>Mire se vini {{userName}}</span>
+        <mat-sidenav-content >
+            <mat-toolbar class="main-toolbar">
+              <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon style="color: gray;">menu</mat-icon>
+              </button>
+                <span style="color: gray;">Mire se vini {{userName}}</span>
                 <span class="spacer"></span>
-                <button mat-button (click)="logout()">
-                    <mat-icon>power_settings_new</mat-icon>
+                <button mat-button (click)="logout()" matTooltip="Dilni">
+                    <mat-icon style="color: gray;">power_settings_new</mat-icon>
                 </button>
-                <button mat-button (click)="toggleTheme()">
+                <button style="color: gray;" mat-button (click)="toggleTheme()">
                     <mat-icon *ngIf="isDarkTheme">brightness_high</mat-icon>
                     <mat-icon  *ngIf="!isDarkTheme">brightness_medium</mat-icon>
         </button>
               </mat-toolbar>
       
           <div class="dashboard-content">
-            <h1>Welcome to the Dashboard!</h1>
-            <p>Your main content goes here...</p>
+           <app-main></app-main>
           </div>
         </mat-sidenav-content>
       </mat-sidenav-container>
