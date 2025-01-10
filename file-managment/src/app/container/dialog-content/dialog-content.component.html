@@ -11,8 +11,8 @@
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>Përzgjidh dosjen</mat-label>
       <mat-select [(value)]="selectedFolder">
-        <mat-option *ngFor="let folder of listFolders" [value]="folder">{{
-          folder
+        <mat-option *ngFor="let folder of listFolders" [value]="folder.id">{{
+          folder.name
         }}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -31,6 +31,6 @@
 
   <div mat-dialog-actions class="dialog-footer">
     <button  mat-raised-button class="dialog-button" (click)="close()">Mbyll</button>
-    <button  mat-raised-button  class="dialog-button" (click)="add()">Shto</button>
+    <button  mat-raised-button  class="dialog-button" (click)="uploadFile()">Shto</button>
   </div>
 </div>

@@ -8,7 +8,8 @@ import { DialogContentComponent } from '../dialog-content/dialog-content.compone
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
-  constructor(private dialog: MatDialog){
+  constructor(private dialog: MatDialog,
+    ){
 
   }
  

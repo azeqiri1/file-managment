@@ -79,7 +79,7 @@ export class DashboardComponent {
     this.isOpened = !this.isOpened;
   }
   getFolders() {
-    this.mockService.getFolders().subscribe(
+    this.mockService.getFoldersByUserId(1).subscribe(
       (data) => {
         this.folders = data;
         this.folders = data;

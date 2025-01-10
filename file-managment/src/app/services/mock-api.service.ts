@@ -17,10 +17,13 @@ export class MockApiService {
     return this.http.get(`${this.apiUrl}/users?username=${username}&password=${password}`);
   }
 
-  getFolders(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/folders`);
+  getFoldersByUserId(userId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/folders?userId=${userId}`);
   }
 
+  uploadFile(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/files`, formData);
+  }
   getSharedFiles(): Observable<any> {
     return this.http.get(`${this.apiUrl}/shared-files`);
   }
