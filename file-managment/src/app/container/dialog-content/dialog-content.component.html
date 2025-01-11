@@ -10,7 +10,7 @@
   <div mat-dialog-content class="content">
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>Përzgjidh dosjen</mat-label>
-      <mat-select [(value)]="selectedFolder">
+      <mat-select [(value)]="selectedFolder" [required]>
         <mat-option *ngFor="let folder of listFolders" [value]="folder.id">{{
           folder.name
         }}</mat-option>

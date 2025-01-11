@@ -1,119 +1,152 @@
 .full-container {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100vh;
-    display: grid;
-   
-   // background: var(--bg);
-    overflow: hidden;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100vh;
+  display: grid;
 
-    .spacer {
-        flex: 1 1 auto;  // This makes the spacer take up all available space
-      }
-/* Sidebar Styling */
-mat-sidenav {
+  overflow: hidden;
+
+  .spacer {
+    flex: 1 1 auto; // This makes the spacer take up all available space
+  }
+  /* Sidebar Styling */
+  mat-sidenav {
     width: 260px; /* Set the width to make the sidebar more spacious */
-    background-color: #343a40; /* Dark background for the sidebar */
+    background-color: transparent; /* Dark background for the sidebar */
     color: white; /* White text color */
     padding-top: 20px; /* Padding at the top */
     height: 100%; /* Full height of the sidebar */
     box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1); /* Soft shadow to separate from main content */
   }
-  
- 
-  .main-toolbar{
+
+  .folders {
+    background-color: transparent;
+    box-shadow: none;
+    ::ng-deep .mat-expansion-panel-body {
+      padding: 0px;
+    }
+
+    .documents-title {
+    }
+    ::ng-deep .mdc-list-item__primary-text  {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .mat-icon-rtl-mirror{
+      font-size: 20px;
+      color: gray;
+    }
+    .folder-name {
+      color: gray;
+      font-size: 14px;
+      padding-top: 3px;
+    }
+    .dragable-folders {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      padding-bottom: 10px;
+      padding-left: 5px;
+
+      ::ng-deep
+        .mat-mdc-checkbox
+        .mdc-checkbox
+        .mdc-checkbox__native-control:enabled:not(:checked):not(
+          :indeterminate
+        ):not([data-indeterminate="true"])
+        ~ .mdc-checkbox__background,
+      .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background,
+      .mat-mdc-checkbox
+        .mdc-checkbox
+        .mdc-checkbox__native-control:enabled:checked
+        ~ .mdc-checkbox__background,
+      .mat-mdc-checkbox
+        .mdc-checkbox
+        .mdc-checkbox__native-control:enabled:indeterminate
+        ~ .mdc-checkbox__background,
+      .mat-mdc-checkbox
+        .mdc-checkbox
+        .mdc-checkbox__native-control[data-indeterminate="true"]:enabled
+        ~ .mdc-checkbox__background {
+        width: 15px;
+        height: 15px;
+      }
+      ::ng-deep
+        .mat-mdc-checkbox
+        .mdc-checkbox
+        .mdc-checkbox__native-control:enabled:checked
+        ~ .mdc-checkbox__background,
+      .mat-mdc-checkbox
+        .mdc-checkbox
+        .mdc-checkbox__native-control:enabled:indeterminate
+        ~ .mdc-checkbox__background,
+      .mat-mdc-checkbox
+        .mdc-checkbox
+        .mdc-checkbox__native-control[data-indeterminate="true"]:enabled
+        ~ .mdc-checkbox__background {
+        width: 15px;
+        height: 15px;
+      }
+    }
+  }
+  .mat-expansion-panel {
+    padding-top: 35px;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .search {
+    height: 30px;
+    font-size: 13px;
+
+    ::ng-deep .mat-mdc-text-field-wrapper {
+      height: 30px;
+      width: 100%;
+    }
+    ::ng-deep .mat-mdc-form-field-infix {
+      margin-top: -13px;
+      margin-left: -10px;
+    }
+  }
+
+  .sidebar-footer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 54px;
+    bottom: 0;
+    border-top: 1px solid lightgrey;
+    background-color: transparent !important;
+  }
+  .main-toolbar {
     background-color: transparent !important;
     border-bottom: 1px solid lightgray;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
   }
 
-  .second-toolbar{
+  .second-toolbar {
     position: absolute;
     top: 0px;
-    background-color: #343a40;
+    background-color: transparent;
     justify-content: end;
-
   }
-  
+
   /* Tree View Styling */
-  mat-tree {
-    margin-top: 20px; /* Space between toolbar and tree */
-    font-family: 'Roboto', sans-serif; /* Smooth and modern font */
-        background-color: #343a40;
-  }
-  
-  mat-tree-node {
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, padding 0.3s ease;
-    cursor: pointer; /* Make the nodes clickable */
-  }
-  
-  mat-tree-node:hover {
-    background-color: #495057; /* Darken background when hovering */
-    padding-left: 30px; /* Indentation on hover to indicate interaction */
-  }
-  
-  /* Styling for folder and file icons */
 
-  
   /* Folder Selection Highlighting */
-  mat-tree-node.mat-tree-node-selected {
-    background-color: #17a2b8; /* Light blue background when selected */
-    color: white; /* White text when selected */
-  }
-  
-  mat-tree-node.mat-tree-node-selected mat-icon {
-    color: white; /* White icon color when selected */
-  }
-  
-  /* Nested tree nodes (child folders) */
-  mat-tree-node[matTreeNodeToggle] {
-    padding-left: 20px; /* Indentation for child nodes */
-  }
-  
-  /* Tree Expansion/Collapse Icons */
-  mat-icon[matTreeNodeToggle] {
-    color: #adb5bd; /* Light color for expand/collapse icons */
-    font-size: 18px; /* Slightly smaller icons */
-    margin-right: 15px; /* Space between the icon and the text */
-  }
-  
-  /* Subtle transition effects */
-  mat-tree-node,
-  mat-icon {
-    transition: color 0.3s ease, background-color 0.3s ease;
-  }
-  
-  /* Change background color when expanding or collapsing a node */
-  mat-tree-node.mat-tree-node-expanded {
-    background-color: #6c757d;
-    padding-left: 25px;
-  }
-  
-  mat-tree-node.mat-tree-node-collapsed {
-    background-color: #495057;
-    padding-left: 15px;
-  }
-  
-  /* Root tree nodes (folders without parent) */
-  mat-tree-node.root-node {
-    font-weight: bold;
-    color: #f8f9fa;
-  }
-  
+
   /* Remove any outline from the sidebar */
   mat-sidenav-content {
     outline: none;
   }
-  
-      
-  }
+}

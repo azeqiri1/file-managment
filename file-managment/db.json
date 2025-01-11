@@ -22,7 +22,16 @@
       "userId": 1,
       "parentId": null,
       "createdAt": "2025-01-01T00:00:00Z",
-      "updatedAt": "2025-01-01T00:00:00Z"
+      "updatedAt": "2025-01-01T00:00:00Z",
+      "files": [
+        {
+          "id": 1,
+          "name": "document1.pdf",
+          "uploadedAt": "2025-01-02T10:00:00Z",
+          "size": 2048,
+          "type": "application/pdf"
+        }
+      ]
     },
     {
       "id": 2,
@@ -30,7 +39,16 @@
       "userId": 1,
       "parentId": 1,
       "createdAt": "2025-01-02T00:00:00Z",
-      "updatedAt": "2025-01-02T00:00:00Z"
+      "updatedAt": "2025-01-02T00:00:00Z",
+      "files": [
+        {
+          "id": 3,
+          "name": "document2.pdf",
+          "uploadedAt": "2025-01-03T11:00:00Z",
+          "size": 1024,
+          "type": "application/pdf"
+        }
+      ]
     },
     {
       "id": 3,
@@ -38,52 +56,16 @@
       "userId": 2,
       "parentId": null,
       "createdAt": "2025-01-03T00:00:00Z",
-      "updatedAt": "2025-01-03T00:00:00Z"
-    }
-  ],
-  "files": [
-    {
-      "id": 1,
-      "name": "document1.pdf",
-      "folderId": 2,
-      "uploadedAt": "2025-01-02T10:00:00Z",
-      "size": 2048,
-      "type": "application/pdf"
-    },
-    {
-      "id": 2,
-      "name": "image1.jpg",
-      "folderId": 3,
-      "uploadedAt": "2025-01-03T11:00:00Z",
-      "size": 1024,
-      "type": "image/jpeg"
-    },
-    {
-      "id": 3
-    },
-    {
-      "id": 4
-    },
-    {
-      "id": 5
-    },
-    {
-      "id": 6
-    },
-    {
-      "id": 7
-    },
-    {
-      "id": 8
-    },
-    {
-      "id": 9
-    },
-    {
-      "id": 10
-    },
-    {
-      "id": 11
+      "updatedAt": "2025-01-03T00:00:00Z",
+      "files": [
+        {
+          "id": 4,
+          "name": "image1.jpg",
+          "uploadedAt": "2025-01-04T12:00:00Z",
+          "size": 2048,
+          "type": "image/jpeg"
+        }
+      ]
     }
   ]
 }

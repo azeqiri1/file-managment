@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatListModule } from '@angular/material/list';
@@ -23,6 +25,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core'; 
 import { DialogContentComponent } from './dialog-content/dialog-content.component';
 import { LoadPreviewComponent } from './dialog-content/load-preview/load-preview.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FormsModule } from '@angular/forms'; 
+import { CdkTreeModule } from '@angular/cdk/tree';
 
 
 
@@ -37,11 +42,16 @@ import { LoadPreviewComponent } from './dialog-content/load-preview/load-preview
   imports: [
     CommonModule,
     MatToolbarModule,
+    MatExpansionModule,
+    CdkTreeModule,
     ContainerRoutingModule,
+    FormsModule,
     MatInputModule,
     MatButtonModule,
+    DragDropModule,
     FlexLayoutModule,
     MatProgressSpinnerModule,
+    MatCheckboxModule,
     MatTooltipModule,
     MatOptionModule,
     MatDialogModule,
