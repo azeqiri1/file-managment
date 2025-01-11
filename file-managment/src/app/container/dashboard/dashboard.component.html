@@ -3,7 +3,12 @@
     <mat-sidenav #sidenav mode="over" [opened]="isOpened">
       <mat-toolbar class="second-toolbar">
         <mat-form-field appearance="outline" class="search">
-          <input matInput />
+          <input
+            matInput
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="onSearchChange()"
+            placeholder="Search folders"
+          />
           <mat-icon style="color: gray; margin-top: -13px" matPrefix
             >search</mat-icon
           >
@@ -26,60 +31,134 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-tree
-            [dataSource]="dataSource"
-            [treeControl]="treeControl"
-            cdkDropList
-            (cdkDropListDropped)="onNodeDrop($event)"
-          >
-            <mat-tree-node
-              *matTreeNodeDef="let node; when: hasChild"
-              matTreeNodePadding
-              cdkDrag
-              [cdkDragData]="node"
-              (cdkDragStarted)="onDragStarted(node)"
-              (cdkDragEnded)="onDragEnded(node)"
+              [dataSource]="dataSource"
+              [treeControl]="treeControl"
+              cdkDropList
+              (cdkDropListDropped)="onNodeDrop($event)"
             >
-              <mat-list-item class="documents-title">
-                <img src="/assets/icons/folder-1485.png" /> 
-              <span class="folder-name"> {{ node.name }} </span> 
-          
-                <!-- Toggle button -->
-                <button
-                  mat-icon-button
-                  matTreeNodeToggle
-                  [attr.aria-label]="'toggle ' + node.name"
+              <mat-tree-node
+                *matTreeNodeDef="let node; when: hasChild"
+                matTreeNodePadding
+                cdkDrag
+                [cdkDragData]="node"
+                (cdkDragStarted)="onDragStarted(node)"
+                (cdkDragEnded)="onDragEnded(node)"
+              >
+                <mat-list-item class="documents-title">
+                  <img src="/assets/icons/folder-1485.png" />
+                  <span class="folder-name"> {{ node.name }} </span>
+                  <!-- Toggle button -->
+                  <button
+                    class="chron-btn"
+                    mat-button
+                    matTreeNodeToggle
+                    [attr.aria-label]="'toggle ' + node.name"
+                  >
+                    <mat-icon class="mat-icon-rtl-mirror">
+                      {{
+                        treeControl.isExpanded(node)
+                          ? "expand_more"
+                          : "chevron_right"
+                      }}
+                    </mat-icon>
+                  </button>
+                  <div
+                    style="
+                      margin-left: -14px;
+                      position: absolute;
+                      display: inline;
+                    "
+                  >
+                    <button
+                      mat-button
+                      class="chron-btn"
+                      [matMenuTriggerFor]="menu"
+                    >
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button
+                        mat-menu-item
+                        style="color: gray"
+                        (click)="saveNode(node)"
+                      >
+                        <mat-icon style="color: gray; font-size: 20px"
+                          >edit</mat-icon
+                        >
+                        <span style="color: gray; font-size: 15px"
+                          >Ri- emero</span
+                        >
+                      </button>
+                      <button
+                      mat-menu-item
+                      style="color: gray"
+                      (click)="addSubfolder(node)"
+                    >
+                      <mat-icon style="color: gray; font-size: 20px"
+                        >add</mat-icon
+                      >
+                      
+                      <span style="color: gray; font-size: 15px"
+                        >Shto nen- dosje</span
+                      >
+                    </button>
+                      <button
+                        mat-menu-item
+                        style="color: gray"
+                        (click)="deleteFolder(node)"
+                      >
+                        <mat-icon style="color: gray; font-size: 20px"
+                          >delete_outline</mat-icon
+                        >
+                        <span style="color: gray; font-size: 15px">Fshi</span>
+                      </button>
+                    </mat-menu>
+                  </div>
+                </mat-list-item>
+              </mat-tree-node>
+              <mat-tree-node *matTreeNodeDef="let subfolder">
+                <mat-list-item
+                  class="documents-title"
+                  (click)="goToFiles(subfolder)"
                 >
-                  <mat-icon class="mat-icon-rtl-mirror">
-                    {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-                  </mat-icon>
-                </button>
-          
-                <!-- Drag-and-Drop Handle -->
-                <button mat-icon-button>
-                  <mat-icon>drag_handle</mat-icon>
-                </button>
-              </mat-list-item>
-            </mat-tree-node>
-          
-            <!-- Child Nodes (Non-Draggable, Non-Droppable, Non-Checkable) -->
-            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-              <mat-list-item>
-                <mat-icon>insert_drive_file</mat-icon>
-                {{ node.name }}
-          
-                <!-- Files display -->
-                <div *ngFor="let file of node.files">
-                  <p>{{ file.name }}</p>
-                </div>
-          
-                <!-- No drag-and-drop handle for child nodes -->
-                <button mat-icon-button disabled></button>
-              </mat-list-item>
-            </mat-tree-node>
-          </mat-tree>
-          
-            
-            
+                  <img src="/assets/icons/folder-1485.png" />
+                  <span class="folder-name-nospace"> {{ subfolder.name }} </span>
+                  <button
+                    mat-button
+                    class="chron-btn"
+                    [matMenuTriggerFor]="menu"
+                  >
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button
+                      mat-menu-item
+                      style="color: gray"
+                      (click)="saveSubfolder(subfolder)"
+                    >
+                      <mat-icon style="color: gray; font-size: 20px"
+                        >edit</mat-icon
+                      >
+                      
+                      <span style="color: gray; font-size: 15px"
+                        >Ri- emero</span
+                      >
+                    </button>
+                 
+                    <button
+                      mat-menu-item
+                      style="color: gray"
+                      (click)="deleteFolder(subfolder)"
+                    >
+                      <mat-icon style="color: gray; font-size: 20px"
+                        >delete_outline</mat-icon
+                      >
+                      <span style="color: gray; font-size: 15px">Fshi</span>
+                    </button>
+                  </mat-menu>
+                </mat-list-item>
+              </mat-tree-node>
+            </mat-tree>
           </mat-expansion-panel>
         </mat-nav-list>
       </content>
@@ -114,7 +193,7 @@
       </mat-toolbar>
 
       <div class="dashboard-content">
-        <app-main></app-main>
+        <app-main [folder]="this.dataToPass"></app-main>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

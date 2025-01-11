@@ -2,7 +2,24 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable,forkJoin, switchMap } from 'rxjs';
+
+// src/app/folder-node.model.ts
+export interface Subfolder {
+  id: number;
+  name: string;
+  uploadedAt: string;
+  files: any[]; // You can define a type for file objects if needed
+}
+
+export interface FolderNode {
+  id: number;
+  name: string;
+  level: number;
+  expandable: boolean;
+  subfolders: Subfolder[]; // Ensure the subfolders are typed
+  isEditing?: boolean; // Optional field for editing state
+}
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +38,45 @@ export class MockApiService {
     return this.http.get(`${this.apiUrl}/folders?userId=${userId}`);
   }
 
-    // Rename a file
-    renameFile(fileId: number, newName: string): Observable<any> {
-      return this.http.patch(`${this.apiUrl}/files/${fileId}`, { name: newName });
-    }
+  createFolder(name: string, userId: number,subfolders:[]): Observable<any> {
+    const newFolder = {
+      name,
+      userId,
+      subfolders
+
+    };
+    return this.http.post(`${this.apiUrl}/folders`, newFolder);
+  }
+
+  deleteFolder(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/folders/${id}`);
+  }
+
+  // DELETE request for deleting multiple folders
+  deleteFolders(ids: number[]): Observable<any> {
+    // Create an array of observables for each delete request
+    const deleteRequests = ids.map(id => this.http.delete(`${this.apiUrl}/folders/${id}`));
+
+    // Use forkJoin to execute all delete requests in parallel and wait for all to complete
+    return forkJoin(deleteRequests);
+  }
+
+  updateFolderName(folderId: number, updatedFolder: { name: string }): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/folders/${folderId}`, updatedFolder);
+  }
+
+
+  addSubfolder(folderId: number, newSubfolder: Subfolder): Observable<FolderNode> {
+    return this.http.get<FolderNode>(`${this.apiUrl}/folders/${folderId}`).pipe(
+      switchMap((folder: FolderNode) => {
+        folder.subfolders = folder.subfolders || [];
+        folder.subfolders.push(newSubfolder);
+        
+        // Update the folder with the new subfolder
+        return this.http.put<FolderNode>(`${this.apiUrl}/folders/${folderId}`, folder);
+      })
+    );
+  }
   
     // Delete selected files
     deleteFiles(files: any[]): Observable<any> {

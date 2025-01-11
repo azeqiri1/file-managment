@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogContentComponent } from '../dialog-content/dialog-content.component';
 
@@ -8,12 +8,17 @@ import { DialogContentComponent } from '../dialog-content/dialog-content.compone
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
+  @Input() folder: string[];
   constructor(private dialog: MatDialog,
     ){
 
   }
  
- 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['folder']) {
+      console.log('folder input changed:', this.folder);
+    }
+  }
   addDocument()
 
 {

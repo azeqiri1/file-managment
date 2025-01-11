@@ -24,6 +24,10 @@
     box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1); /* Soft shadow to separate from main content */
   }
 
+
+  .mat-tree {
+     background: transparent;
+}
   .folders {
     background-color: transparent;
     box-shadow: none;
@@ -32,22 +36,47 @@
     }
 
     .documents-title {
+      padding: 24px;
     }
-    ::ng-deep .mdc-list-item__primary-text  {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      justify-content: space-between;
-    }
+ 
 
     .mat-icon-rtl-mirror{
       font-size: 20px;
       color: gray;
     }
     .folder-name {
+
+      ::ng-deep .mdc-list-item__primary-text  {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+      }
+
       color: gray;
       font-size: 14px;
       padding-top: 3px;
+      padding-left: 12px;
+      font-weight: 500;
+    }
+
+    .chron-btn{
+      color: gray;
+    }
+    .folder-name-nospace{
+
+      color: gray;
+      font-size: 14px;
+      padding-top: 3px;
+      padding-left: 12px;
+      font-weight: 500;
+
+      ::ng-deep .mdc-list-item__primary-text  {
+        display: flex;
+        align-items: center;
+        width: 100%;
+      }
+
     }
     .dragable-folders {
       display: flex;

@@ -5,67 +5,155 @@
       "username": "admin",
       "password": "admin123",
       "role": "admin",
-      "token": "admin-token"
+      "token": "admin-token",
+      "permissions": {
+        "read": true,
+        "write": true,
+        "delete": true,
+        "share": true
+      }
     },
     {
       "id": 2,
       "username": "user",
       "password": "user123",
       "role": "user",
-      "token": "user-token"
+      "token": "user-token",
+      "permissions": {
+        "read": true,
+        "write": true,
+        "delete": false,
+        "share": false
+      }
     }
   ],
   "folders": [
     {
       "id": 1,
-      "name": "Root Folder",
-      "userId": 1,
-      "parentId": null,
-      "createdAt": "2025-01-01T00:00:00Z",
-      "updatedAt": "2025-01-01T00:00:00Z",
-      "files": [
-        {
-          "id": 1,
-          "name": "document1.pdf",
-          "uploadedAt": "2025-01-02T10:00:00Z",
-          "size": 2048,
-          "type": "application/pdf"
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "name": "Documents",
-      "userId": 1,
-      "parentId": 1,
-      "createdAt": "2025-01-02T00:00:00Z",
-      "updatedAt": "2025-01-02T00:00:00Z",
-      "files": [
-        {
-          "id": 3,
-          "name": "document2.pdf",
-          "uploadedAt": "2025-01-03T11:00:00Z",
-          "size": 1024,
-          "type": "application/pdf"
-        }
-      ]
-    },
-    {
-      "id": 3,
       "name": "Images",
       "userId": 2,
       "parentId": null,
       "createdAt": "2025-01-03T00:00:00Z",
       "updatedAt": "2025-01-03T00:00:00Z",
-      "files": [
+      "subfolders": [
         {
-          "id": 4,
-          "name": "image1.jpg",
-          "uploadedAt": "2025-01-04T12:00:00Z",
-          "size": 2048,
-          "type": "image/jpeg"
+          "id": 1,
+          "parentId": 3,
+          "name": "document1.pdf",
+          "uploadedAt": "2025-01-02T10:00:00Z",
+          "files": [
+            {
+              "id": 1,
+              "name": "document2.pdf",
+              "uploadedAt": "2025-01-03T11:00:00Z",
+              "size": 1024,
+              "type": "application/pdf"
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "document2.pdf",
+          "uploadedAt": "2025-01-02T10:00:00Z",
+          "files": [
+            {
+              "id": 1,
+              "name": "document2.pdf",
+              "uploadedAt": "2025-01-03T11:00:00Z",
+              "size": 1024,
+              "type": "application/pdf"
+            }
+          ]
+        },
+        {
+          "id": 1736630480688,
+          "name": "Nen-Dosje e re",
+          "uploadedAt": "2025-01-11T21:21:20.688Z",
+          "files": []
         }
       ]
+    },
+    {
+      "name": "Dosje e re",
+      "userId": 1,
+      "subfolders": [
+        {
+          "id": 1,
+          "name": "document1.pdf",
+          "uploadedAt": "2025-01-02T10:00:00Z",
+          "files": [
+            {
+              "id": 1,
+              "name": "document2.pdf",
+              "uploadedAt": "2025-01-03T11:00:00Z",
+              "size": 1024,
+              "type": "application/pdf"
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "document1.pdf",
+          "uploadedAt": "2025-01-02T10:00:00Z",
+          "files": [
+            {
+              "id": 1,
+              "name": "document2.pdf",
+              "uploadedAt": "2025-01-03T11:00:00Z",
+              "size": 1024,
+              "type": "application/pdf"
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "document1.pdf",
+          "uploadedAt": "2025-01-02T10:00:00Z",
+          "files": [
+            {
+              "id": 1,
+              "name": "document3.pdf",
+              "uploadedAt": "2025-01-03T11:00:00Z",
+              "size": 1024,
+              "type": "application/pdf"
+            }
+          ]
+        }
+      ],
+      "id": 1
+    },
+    {
+      "name": "Dosje e re 123",
+      "userId": 1,
+      "subfolders": [
+        {
+          "id": 1,
+          "name": "document1.pdf",
+          "uploadedAt": "2025-01-02T10:00:00Z",
+          "files": [
+            {
+              "id": 1,
+              "name": "document2.pdf",
+              "uploadedAt": "2025-01-03T11:00:00Z",
+              "size": 1024,
+              "type": "application/pdf"
+            }
+          ]
+        }
+      ],
+      "id": 14
+    },
+    {
+      "id": 1736630400003,
+      "name": "Nen-Dosje e re",
+      "uploadedAt": "2025-01-11T21:20:00.003Z",
+      "files": []
+    },
+    {
+      "id": 1736630406413,
+      "name": "Nen-Dosje e re",
+      "uploadedAt": "2025-01-11T21:20:06.413Z",
+      "files": []
     }
   ]
 }

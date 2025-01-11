@@ -16,7 +16,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatListModule } from '@angular/material/list';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MainComponent } from './main/main.component';
@@ -28,6 +28,8 @@ import { LoadPreviewComponent } from './dialog-content/load-preview/load-preview
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms'; 
 import { CdkTreeModule } from '@angular/cdk/tree';
+import { MatMenuModule } from '@angular/material/menu';
+import { EditComponent } from './dashboard/edit/edit.component';
 
 
 
@@ -37,7 +39,8 @@ import { CdkTreeModule } from '@angular/cdk/tree';
     DashboardComponent,
     MainComponent,
     DialogContentComponent,
-    LoadPreviewComponent
+    LoadPreviewComponent,
+    EditComponent
   ],
   imports: [
     CommonModule,
@@ -59,6 +62,7 @@ import { CdkTreeModule } from '@angular/cdk/tree';
     MatFormFieldModule,
     MatTreeModule,
     MatSelectModule,
+    MatMenuModule,
     MatListModule,
     MatSnackBarModule,
     MatIconModule,
