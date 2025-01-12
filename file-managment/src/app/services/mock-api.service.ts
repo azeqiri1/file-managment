@@ -38,13 +38,7 @@ export class MockApiService {
     return this.http.get(`${this.apiUrl}/folders?userId=${userId}`);
   }
 
-  createFolder(name: string, userId: number,subfolders:[]): Observable<any> {
-    const newFolder = {
-      name,
-      userId,
-      subfolders
-
-    };
+  createFolder(newFolder): Observable<any> {
     return this.http.post(`${this.apiUrl}/folders`, newFolder);
   }
 
@@ -66,7 +60,7 @@ export class MockApiService {
   }
 
 
-  addSubfolder(folderId: number, newSubfolder: Subfolder): Observable<FolderNode> {
+  addSubfolder(folderId: number, newSubfolder): Observable<FolderNode> {
     return this.http.get<FolderNode>(`${this.apiUrl}/folders/${folderId}`).pipe(
       switchMap((folder: FolderNode) => {
         folder.subfolders = folder.subfolders || [];

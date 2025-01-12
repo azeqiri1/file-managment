@@ -6,6 +6,157 @@ header, footer {
   }
   
 
+
+  .header-content{
+    header{
+      top: 0;
+       z-index: 11;
+      transition: all 250ms ease-in-out;
+    }
+    .main-header{
+      @extend header;
+      &.hidden{
+        opacity: 0;
+      }
+    }
+    .search-block{
+      width: 0%;
+      right: 0;
+      @extend header;
+      background: #fff;
+      &.active{
+        width: 100%;
+      }
+      .search-control{
+        flex: 1;
+        font-size: 1rem;
+        border: 0;
+        outline: none;
+        padding-left: 10px;
+      }
+    }
+  }
+/* Base container for file cards */
+.folder-management-container {
+  padding: 20px;
+}
+
+.view-toggle {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.folders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.folder {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.file-card {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.grid-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.folder-management-container {
+  padding: 20px;
+}
+
+.search-filter-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.file-card {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.grid-item {
+  width: calc(33% - 10px);
+}
+
+.list-item {
+  width: 100%;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+mat-chip-list {
+  margin-top: 10px;
+}
+
+mat-chip {
+  background-color: #1976d2;
+  color: white;
+  font-size: 12px;
+}
+
+input, mat-select {
+  width: 200px;
+}
+
+button {
+  margin-left: 20px;
+}
+
+
+
+.file-container-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.file-card-line {
+  width: 300px;
+  flex-shrink: 0;
+  margin-bottom: 16px;
+}
+
+/* Styling for the list layout */
+.file-card-list {
+  margin-bottom: 16px;
+}
+
+.file-card-list mat-card {
+  margin-bottom: 16px;
+}
+
+/* Toggle buttons styles */
+.layout-toggle-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px;
+}
+
+.layout-toggle-buttons button {
+  margin-right: 10px;
+}
+
 footer {
     position: fixed;
     bottom: 0;

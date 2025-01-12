@@ -30,8 +30,8 @@ import { FormsModule } from '@angular/forms';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { MatMenuModule } from '@angular/material/menu';
 import { EditComponent } from './dashboard/edit/edit.component';
-
-
+import { MatGridListModule } from '@angular/material/grid-list';
+import { FileDialogComponent } from './main/file-dialog/file-dialog.component';
 
 
 @NgModule({
@@ -40,7 +40,8 @@ import { EditComponent } from './dashboard/edit/edit.component';
     MainComponent,
     DialogContentComponent,
     LoadPreviewComponent,
-    EditComponent
+    EditComponent,
+    FileDialogComponent
   ],
   imports: [
     CommonModule,
@@ -56,6 +57,7 @@ import { EditComponent } from './dashboard/edit/edit.component';
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatTooltipModule,
+    MatGridListModule,
     MatOptionModule,
     MatDialogModule,
     MatSidenavModule,

@@ -18,23 +18,8 @@ import { MockApiService } from 'src/app/services/mock-api.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EditComponent } from './edit/edit.component';
 
-interface FolderNode {
-  id: number;
-  name: string;
-  subfolders?: FileNode[];
-}
 
-interface FileNode {
-  id: number;
-  name: string;
-}
 
-interface FlatNode {
-  id: number;
-  expandable: boolean;
-  name: string;
-  level: number;
-}
 
 @Component({
   selector: 'app-dashboard',
@@ -42,16 +27,17 @@ interface FlatNode {
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  private _transformer = (node: FolderNode, level: number) => {
+  private _transformer = (node , level: number) => {
     return {
-      id: node.id,
+      id:node.id,
+      parentId:node.parentId,
       expandable: level === 0,
       name: node.name,
       level: level,
     };
   };
 
-  treeControl = new FlatTreeControl<FlatNode>(
+  treeControl = new FlatTreeControl<any>(
     (node) => node.level,
     (node) => node.expandable
   );
@@ -78,7 +64,7 @@ export class DashboardComponent implements OnInit {
   searchQuery: string = '';
   subfolder:any;
   dataToPass: any;
-  filteredFolders: FolderNode[] = [];
+  filteredFolders: any[] = [];
 
   @Input() theme: string = 'light';
 
@@ -144,7 +130,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // Recursive function to check if a folder or its subfolders match the search query
-  filterNode(node: FolderNode, query: string): FolderNode | null {
+  filterNode(node, query: string): any | null {
     const filteredSubfolders = node.subfolders
       ? node.subfolders
           .map((subfolder) => this.filterNode(subfolder, query)) // Recursively filter subfolders
@@ -167,7 +153,7 @@ export class DashboardComponent implements OnInit {
     this.filterFolders();
   }
 
-  hasChild = (_: number, node: FlatNode) => node.expandable;
+  hasChild = (_: number, node) => node.expandable;
 
   // Toggle Sidebar visibility
   toggleSidebar() {
@@ -270,8 +256,10 @@ export class DashboardComponent implements OnInit {
   }
 
   addFolder() {
-    const newNode: FolderNode = {
-      id: undefined,
+    const newNode= {
+      id:this.listFolders.lenth !== 0 ? this.listFolders.length + 1 : 1,
+      userId:this.userId.id,
+      parentId:null,
       name: `Dosje e re ${this.listFolders.length + 1}`,
       subfolders: [],
     };
@@ -279,7 +267,7 @@ export class DashboardComponent implements OnInit {
     this.listFolders.push(newNode);
     this.dataSource.data = this.listFolders;
 
-    this.mockService.createFolder(newNode.name, this.userId.id, []).subscribe(
+    this.mockService.createFolder(newNode).subscribe(
       (response) => {
         console.log('Folder created successfully:', response);
       },
@@ -310,10 +298,42 @@ export class DashboardComponent implements OnInit {
     node.isEditing = true;
   }
 
-  goToFiles(node) {
-    console.log(node)
-    this.dataToPass = node;
+
+goToFiles(node) {
+  console.log(node.parentId); // Logs the parentId of the node
+  
+  this.listFolders.forEach(folder => {
+    if (folder.id === node.parentId) {
+      // Check if the folder contains subfolders
+      if (folder.subfolders) {
+        // Find the matching subfolder based on node.id
+        const found = this.findFolderById(node.id, folder.subfolders);
+        if (found) {
+          this.dataToPass = found.files; // Pass the found subfolder to dataToPass
+          console.log('Found Subfolder:', found);
+          return found; // Return the subfolder if found
+        }
+      }
+    }
+  });
+}
+
+// Helper function to recursively search for the subfolder by its id
+findFolderById(id: number, subfolders: any[]): any {
+  for (let subfolder of subfolders) {
+    if (subfolder.id === id) {
+      return subfolder; // Return the subfolder if its ID matches
+    } else if (subfolder.subfolders) {
+      // If subfolder has its own subfolders, recursively search in them
+      const found = this.findFolderById(id, subfolder.subfolders);
+      if (found) {
+        return found;
+      }
+    }
   }
+  return null; // Return null if no matching subfolder is found
+}
+
 
   saveNode(node): void {
     const dialogRef = this.dialog.open(EditComponent, {
@@ -339,10 +359,10 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  addSubfolder(folderId): void {
-    console.log(folderId)
+  addSubfolder(folderId) {
+    console.log(folderId,"poqo")
     const newSubfolder= {
-      id: Date.now(),  // Unique ID for the subfolder
+      parentId: folderId.id, 
       name: `Nen-Dosje e re`,
       uploadedAt: new Date().toISOString(),  // Current timestamp
       files: []  // Subfolders can have files as well, initially empty
@@ -350,13 +370,8 @@ export class DashboardComponent implements OnInit {
 
     this.mockService.addSubfolder(folderId.id, newSubfolder).subscribe(
       (response) => {
-        console.log('Subfolder added:', response);
-        // Update the local folder's subfolders list to reflect the new subfolder
-        const folder = this.listFolders.find(f => f.id === folderId.id);
-        console.log(folder,'folderi')
-        if (folder) {
-          folder.subfolders.push(response);  // Assuming the response includes the new subfolder
-        }
+  
+          this.getFolders() // Assuming the response includes the new subfolde
       },
       (error) => {
         console.error('Error adding subfolder:', error);
