@@ -31,7 +31,9 @@ import { CdkTreeModule } from '@angular/cdk/tree';
 import { MatMenuModule } from '@angular/material/menu';
 import { EditComponent } from './dashboard/edit/edit.component';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { FileDialogComponent } from './main/file-dialog/file-dialog.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { SubfolderComponent } from './subfolder/subfolder.component';
+import { MenusDialogComponentComponent } from './dashboard/menus-dialog-component/menus-dialog-component.component';
 
 
 @NgModule({
@@ -41,12 +43,14 @@ import { FileDialogComponent } from './main/file-dialog/file-dialog.component';
     DialogContentComponent,
     LoadPreviewComponent,
     EditComponent,
-    FileDialogComponent
+    SubfolderComponent,
+    MenusDialogComponentComponent
   ],
   imports: [
     CommonModule,
     MatToolbarModule,
     MatExpansionModule,
+    MatChipsModule,
     CdkTreeModule,
     ContainerRoutingModule,
     FormsModule,

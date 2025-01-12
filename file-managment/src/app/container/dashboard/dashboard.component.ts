@@ -12,14 +12,10 @@ import {
   MatTreeFlattener,
   MatTreeFlatDataSource,
 } from '@angular/material/tree';
-import { CdkDragDrop, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
-
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MockApiService } from 'src/app/services/mock-api.service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { EditComponent } from './edit/edit.component';
-
-
-
 
 @Component({
   selector: 'app-dashboard',
@@ -27,23 +23,21 @@ import { EditComponent } from './edit/edit.component';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  private _transformer = (node , level: number) => {
+  // Flattening function to transform the tree structure
+  private _transformer = (node, level: number) => {
     return {
-      id:node.id,
-      parentId:node.parentId,
-      expandable: level === 0,
-      name: node.name,
-      level: level,
+      ...node, // Keep all properties from the node
+      expandable: true, // Make only top-level folders expandable
+      level: level, // Indicate the nesting level
     };
   };
-
   treeControl = new FlatTreeControl<any>(
     (node) => node.level,
     (node) => node.expandable
   );
 
   treeFlattener = new MatTreeFlattener(
-    this._transformer,
+    this.transformer,
     (node) => node.level,
     (node) => node.expandable,
     (node) => node.subfolders
@@ -51,22 +45,24 @@ export class DashboardComponent implements OnInit {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
+  // Properties
   user: any;
   userName: any;
   isDarkTheme: boolean = false;
   isEditing: boolean = false;
-  listFolders: any;
+  listFolders: any[] = []; // List of folders
+  subfolders: any[] = []; // List of subfolders
+  filteredFolders: any[] = []; // Filtered list of folders
   currentPath: string[] = [];
-  isOpened = false;
-  userId: any = JSON.parse(localStorage.getItem('currentUser'));
-  selectedFolders = [];
   isPanelExpanded = false;
-  searchQuery: string = '';
-  subfolder:any;
-  dataToPass: any;
-  filteredFolders: any[] = [];
-
+  // Track the current path in the navigation
+  isOpened = false; // Sidebar visibility
+  userId: any = JSON.parse(localStorage.getItem('currentUser')); 
+  // Get current user from localStorage
+  selectedFolders = []; // Selected folders for deletion, etc.
+  searchQuery: string = ''; // Search query for filtering folders and subfolders
   @Input() theme: string = 'light';
+  subfoldersArray: any; // Theme input
 
   constructor(
     private router: Router,
@@ -78,8 +74,9 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getFolders();
-    this.setupTheme();
+  
+    this.getFolders(); // Initialize folders and subfolders
+    this.setupTheme(); // Set up theme based on localStorage
   }
 
   setupTheme() {
@@ -98,54 +95,74 @@ export class DashboardComponent implements OnInit {
     document.body.setAttribute('data-theme', this.theme);
   }
 
-  // Get folders from mock service (replace with your real API call)
   getFolders() {
     this.mockService.getFoldersByUserId(this.userId.id).subscribe(
       (data) => {
         this.listFolders = data;
-        this.filteredFolders = [...this.listFolders]; // Initialize filteredFolders
-        this.dataSource.data = this.filteredFolders;
+        this.filteredFolders = [...this.listFolders];
+        this.getSubfolders();
       },
       (error) => {
-        console.error('Error fetching folders:', error);
       }
     );
   }
 
+  getSubfolders() {
+    this.mockService.getAllSubfolders().subscribe(
+      (subfolders) => {
+        this.subfoldersArray = subfolders;
+        this.listFolders.forEach((folder) => {
+          const filteredSubfolders = subfolders.filter(
+            (subfolder) => subfolder.parentId === folder.id
+          );
+          folder.subfolders = filteredSubfolders; 
+        });
+
+        this.dataSource.data = [...this.listFolders];
+      },
+      (error) => {
+        console.error('Error fetching subfolders', error);
+      }
+    );
+  }
+
+  transformer(node, level: number) {
+    return {
+      ...node,
+      expandable: level === 0, 
+      level: level,
+    };
+  }
+
+  hasChild = (_: number, node) => node.expandable;
+
   filterFolders() {
     if (!this.searchQuery.trim()) {
-      // If search is empty, show all folders
       this.filteredFolders = [...this.listFolders];
     } else {
-      // Filter folders and subfolders by search query
       this.filteredFolders = this.listFolders
         .map((folder) =>
           this.filterNode(folder, this.searchQuery.toLowerCase())
         )
-        .filter((folder) => folder !== null); // Remove folders with no match
+        .filter((folder) => folder !== null); 
     }
-
-    // Update the tree data source with the filtered folders
     this.dataSource.data = this.filteredFolders;
   }
 
-  // Recursive function to check if a folder or its subfolders match the search query
   filterNode(node, query: string): any | null {
     const filteredSubfolders = node.subfolders
       ? node.subfolders
-          .map((subfolder) => this.filterNode(subfolder, query)) // Recursively filter subfolders
-          .filter((subfolder) => subfolder !== null) // Remove non-matching subfolders
+          .map((subfolder) => this.filterNode(subfolder, query)) 
+          .filter((subfolder) => subfolder !== null) 
       : [];
-
-    // Check if the folder name or any subfolder matches the search query
     if (
       node.name.toLowerCase().includes(query) ||
       filteredSubfolders.length > 0
     ) {
-      return { ...node, subfolders: filteredSubfolders }; // Include matched folder and its subfolders
+      return { ...node, subfolders: filteredSubfolders }; 
     }
 
-    return null; // Return null if no match
+    return null; // No match found
   }
 
   // Called when the search query changes
@@ -153,9 +170,7 @@ export class DashboardComponent implements OnInit {
     this.filterFolders();
   }
 
-  hasChild = (_: number, node) => node.expandable;
-
-  // Toggle Sidebar visibility
+  // Toggle the sidebar visibility
   toggleSidebar() {
     const content = this.el.nativeElement.querySelector('.mat-sidenav-content');
     this.isOpened = !this.isOpened;
@@ -167,61 +182,33 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  // Toggle Folder selection
+  // Toggle folder selection for multiple actions
   toggleFolderSelection(folder) {
     folder.selected = !folder.selected;
   }
 
-  onDragStarted(node: any) {
-    console.log('Drag started', node);
-  }
-
-  // Handle drag end event
-  onDragEnded(node: any) {
-    console.log('Drag ended', node);
-  }
-
-  findFolderIndex(folderId: number, folders: any[]): number {
-    for (let i = 0; i < folders.length; i++) {
-      if (folders[i].id === folderId) {
-        return i;
-      }
-
-      if (folders[i].subfolders) {
-        const childIndex = this.findFolderIndex(
-          folderId,
-          folders[i].subfolders
-        );
-        if (childIndex !== -1) {
-          return childIndex;
-        }
-      }
-    }
-    return -1;
-  }
-
-  // Handle the drop event
+  // Handle the drag and drop event for folders and subfolders
   onNodeDrop(event: CdkDragDrop<any[]>) {
-    console.log(event, '-----');
     const draggedNode = event.item.data;
     const previousIndex = event.previousIndex;
     const currentIndex = event.currentIndex;
 
-    if (draggedNode && draggedNode.hasOwnProperty('name')) {
-      console.log('Moving folder:', draggedNode.name);
-
+    if (draggedNode) {
       this.moveFolderAndFilesInArray(
         this.listFolders,
         previousIndex,
         currentIndex,
         draggedNode
       );
+      this.mockService
+        .updateFolderPosition(draggedNode.id, { position: currentIndex })
+        .subscribe();
+
       this.dataSource.data = [...this.listFolders];
-    } else {
-      console.error('Invalid node data or missing properties:', draggedNode);
     }
   }
 
+  // Move a folder and its subfolders in the array
   moveFolderAndFilesInArray(
     array: any[],
     fromIndex: number,
@@ -233,108 +220,140 @@ export class DashboardComponent implements OnInit {
 
     array.splice(fromIndex, 1);
     array.splice(toIndex, 0, folderToMove);
-    filesToMove.forEach((folder) => {
-      folder.parentId = folderToMove.id;
+
+    folderToMove.position = toIndex;
+
+    filesToMove.forEach((subfolder, index) => {
+      subfolder.position = index;
+      subfolder.parentId = folderToMove.id;
     });
+
     folderToMove.subfolders = filesToMove;
-
-    this.adjustParentChildRelationships();
   }
 
-  adjustParentChildRelationships() {
-    this.listFolders.forEach((folder) => {
-      folder.subfolders.forEach((subfolder) => {
-        subfolder.parentId = folder.id;
-      });
-
-      if (folder.subfolders) {
-        folder.subfolders.forEach((childFolder) => {
-          childFolder.parentId = folder.id;
-        });
-      }
-    });
-  }
-
+  // Add a new folder (top-level folder)
   addFolder() {
-    const newNode= {
-      id:this.listFolders.lenth !== 0 ? this.listFolders.length + 1 : 1,
-      userId:this.userId.id,
-      parentId:null,
+    const newFolder = {
+      id: this.generateNewFolderId(),
+      position: this.listFolders.length,
+      subfolders: [], // Subfolders array is empty initially
+      createdDate: new Date().toISOString(),
+      modifiedDate: new Date().toISOString(),
+      userId: this.userId.id,
       name: `Dosje e re ${this.listFolders.length + 1}`,
-      subfolders: [],
+    };
+    console.log(newFolder,'qo')
+    this.listFolders.push(newFolder);
+    this.dataSource.data = this.listFolders;
+    this.mockService.addFolder(newFolder).subscribe();
+  }
+
+  // Add a subfolder under a specific parent folder
+  addSubfolder(parentFolder) {
+    const newSubfolder = {
+      id: this.generateSubFolderLength(), // New unique ID for the subfolder
+      parentId: parentFolder.id, // Associate subfolder with its parent folder
+      name: `Nen-Dosje e re`,
+      createdBy: this.userId.username,
+      uploadedAt: new Date().toISOString(),
+      files: [],
     };
 
-    this.listFolders.push(newNode);
-    this.dataSource.data = this.listFolders;
-
-    this.mockService.createFolder(newNode).subscribe(
-      (response) => {
-        console.log('Folder created successfully:', response);
-      },
-      (error) => {
-        console.error('Ndodhi nje gabim', error);
-      }
-    );
+    // Call the API to add the new subfolder
+    this.mockService.addSubfolder(newSubfolder).subscribe(() => {
+      this.getFolders(); // Refresh folders and subfolders from API
+    });
   }
 
+  // Generate a new unique ID for folders and subfolders
+  generateNewFolderId(): number {
+    if (this.listFolders.length === 0) {
+      return 1; // If no folders, start with ID 1
+    }
 
-  
+    const highestId = Math.max(
+      ...this.listFolders.map((folder) => folder.id),
+      0
+    ); // Get the highest ID from existing folders
+    return highestId + 1;
+  }
+  generateSubFolderLength() {
+    if (this.subfoldersArray.length === 0) {
+      return 1; // If no folders, start with ID 1
+    }
+
+    const highestId = Math.max(
+      ...this.subfoldersArray.map((subfolder) => subfolder.id),
+      0
+    ); // Get the highest ID from existing folders
+    return highestId + 1;
+  }
+
+  // Delete a folder from the list
   deleteFolder(node) {
-    this.mockService.deleteFolder(node.id).subscribe(
-      (response) => {
-        console.log('Folder deleted:', response);
-        this.listFolders = this.listFolders.filter(
-          (folder) => folder.id !== node.id
-        );
-        this.dataSource.data = this.listFolders;
-      },
-      (error) => {
-        console.error('Error deleting folder:', error);
-      }
+    const indexToDelete = this.listFolders.findIndex(
+      (folder) => folder.id === node.id
     );
-  }
 
-  enableEditing(node): void {
-    node.isEditing = true;
-  }
+    if (indexToDelete !== -1) {
+      this.listFolders.splice(indexToDelete, 1);
+      this.listFolders.forEach((folder, index) => {
+        folder.position = index;
+      })
+     
+      this.dataSource.data = this.listFolders;
 
-
-goToFiles(node) {
-  console.log(node.parentId); // Logs the parentId of the node
-  
-  this.listFolders.forEach(folder => {
-    if (folder.id === node.parentId) {
-      // Check if the folder contains subfolders
-      if (folder.subfolders) {
-        // Find the matching subfolder based on node.id
-        const found = this.findFolderById(node.id, folder.subfolders);
-        if (found) {
-          this.dataToPass = found.files; // Pass the found subfolder to dataToPass
-          console.log('Found Subfolder:', found);
-          return found; // Return the subfolder if found
-        }
-      }
-    }
-  });
-}
-
-// Helper function to recursively search for the subfolder by its id
-findFolderById(id: number, subfolders: any[]): any {
-  for (let subfolder of subfolders) {
-    if (subfolder.id === id) {
-      return subfolder; // Return the subfolder if its ID matches
-    } else if (subfolder.subfolders) {
-      // If subfolder has its own subfolders, recursively search in them
-      const found = this.findFolderById(id, subfolder.subfolders);
-      if (found) {
-        return found;
-      }
+      this.mockService.deleteFolder(node.id).subscribe();
     }
   }
-  return null; // Return null if no matching subfolder is found
-}
 
+  deleteSubfolder(node) {
+    const indexToDelete = this.subfoldersArray.findIndex(
+      (subfolder) => subfolder.id === node.id
+    );
 
+    if (indexToDelete !== -1) {
+      this.subfoldersArray.splice(indexToDelete, 1);
+      this.subfoldersArray.forEach((subfolder, index) => {
+        subfolder.position = index;
+      });
+
+    this.getFolders()
+      this.mockService.deleteSubfolder(node.id).subscribe();
+    }
+  }
+
+  // Navigate to a specific folder
+  goToFolder(folderId: string) {
+    this.router.navigate([`/dashboard/folder/${folderId}`], {
+      queryParams: { folderId },
+    });
+  }
+
+  // Find the parent folder for a given subfolder
+  findParentFolder(subfolderId: number) {
+    for (const folder of this.listFolders) {
+      const subfolder = folder.subfolders.find(
+        (sf) => sf.parentId === folder.id && sf.id === subfolderId
+      );
+      if (subfolder) {
+        return folder;
+      }
+    }
+    return null;
+  }
+
+  // Navigate to a specific subfolder
+  goToSubfolder(subfolder: any) {
+    const parentFolder = this.findParentFolder(subfolder.id);
+    this.router.navigate([`/dashboard/folder/${parentFolder.id}/subfolder/${subfolder.id}`], {
+      queryParams: {
+        subfolder: subfolder.id, // Serialize the object to a string
+      },
+    });
+  }
+
+  // Open dialog for editing folder name
   saveNode(node): void {
     const dialogRef = this.dialog.open(EditComponent, {
       data: {
@@ -346,51 +365,48 @@ findFolderById(id: number, subfolders: any[]): any {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const updatedFolder = { name: result };
-        this.mockService.updateFolderName(node.id, updatedFolder).subscribe(
-          (response) => {
-            console.log('Folder updated:', response);
+        this.mockService
+          .updateFolderName(node.id, updatedFolder)
+          .subscribe(() => {
             this.getFolders();
-          },
-          (error) => {
-            console.error('Error updating folder:', error);
-          }
-        );
+          });
       }
     });
   }
 
-  addSubfolder(folderId) {
-    console.log(folderId,"poqo")
-    const newSubfolder= {
-      parentId: folderId.id, 
-      name: `Nen-Dosje e re`,
-      uploadedAt: new Date().toISOString(),  // Current timestamp
-      files: []  // Subfolders can have files as well, initially empty
-    };
 
-    this.mockService.addSubfolder(folderId.id, newSubfolder).subscribe(
-      (response) => {
-  
-          this.getFolders() // Assuming the response includes the new subfolde
+  saveNodeSubfolder(node): void {
+    const dialogRef = this.dialog.open(EditComponent, {
+      data: {
+        docId: node.id,
+        docName: node.name,
       },
-      (error) => {
-        console.error('Error adding subfolder:', error);
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const updatedFolder = { name: result };
+        this.mockService
+          .updateSubfolderName(node.id, updatedFolder)
+          .subscribe(() => {
+            this.getFolders();
+          });
       }
-    );
+    });
   }
+  
 
 
-  saveSubfolder( subfolder){
-    debugger
-
-  }
+  // Refresh the component (if needed)
   refresh() {}
 
+  // Logout the current user
   logout() {
     localStorage.removeItem('currentUser');
     this.router.navigate(['/login']);
   }
 
+  // Toggle the theme between dark and light
   toggleTheme(): void {
     this.isDarkTheme = !this.isDarkTheme;
 

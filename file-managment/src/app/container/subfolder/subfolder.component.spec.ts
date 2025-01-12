@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FileDialogComponent } from './file-dialog.component';
+import { SubfolderComponent } from './subfolder.component';
 
-describe('FileDialogComponent', () => {
-  let component: FileDialogComponent;
-  let fixture: ComponentFixture<FileDialogComponent>;
+describe('SubfolderComponent', () => {
+  let component: SubfolderComponent;
+  let fixture: ComponentFixture<SubfolderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FileDialogComponent ]
+      declarations: [ SubfolderComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FileDialogComponent);
+    fixture = TestBed.createComponent(SubfolderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

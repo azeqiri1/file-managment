@@ -1,3 +1,10 @@
+
+.main{
+  overflow-x: hidden !important;
+    overflow-y: scroll !important;
+    height: 544px;
+
+}
 header, footer {
     background-color: transparent;
     color: white;
@@ -5,156 +12,86 @@ header, footer {
     height: 80px;
   }
   
-
-
-  .header-content{
-    header{
-      top: 0;
-       z-index: 11;
-      transition: all 250ms ease-in-out;
-    }
-    .main-header{
-      @extend header;
-      &.hidden{
-        opacity: 0;
-      }
-    }
-    .search-block{
-      width: 0%;
-      right: 0;
-      @extend header;
-      background: #fff;
-      &.active{
-        width: 100%;
-      }
-      .search-control{
-        flex: 1;
-        font-size: 1rem;
-        border: 0;
-        outline: none;
-        padding-left: 10px;
-      }
-    }
-  }
-/* Base container for file cards */
-.folder-management-container {
-  padding: 20px;
-}
-
-.view-toggle {
+/* Styles for Grid and List Views */
+.grid-view .file-or-folder {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+  margin: 10px; /* Adds margin between grid items */
+  height: 100%;
 }
 
-.folders {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.folder {
-  width: 100%;
-  margin-bottom: 30px;
-}
-
-.file-card {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.grid-view {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
-}
-
-.folder-management-container {
-  padding: 20px;
-}
-
-.search-filter-container {
+.list-view .file-or-folder {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.files {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.file-card {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.grid-item {
-  width: calc(33% - 10px);
-}
-
-.list-item {
-  width: 100%;
-}
-
-mat-card {
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
 }
 
-mat-chip-list {
-  margin-top: 10px;
+.subfolder-card {
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  margin: 10px; /* Adds margin around each card */
 }
 
-mat-chip {
-  background-color: #1976d2;
+.search {
+  height: 30px;
+  font-size: 13px;
+
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 30px;
+    width: 100%;
+  }
+  ::ng-deep .mat-mdc-form-field-infix {
+    margin-top: -13px;
+    margin-left: -10px;
+  }
+}
+
+.subfolder-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.mat-mdc-card-header{
+  background-color: #dfdfdf;
+  padding: 10px;
+}
+
+.mat-mdc-card-title {
+  color: gray;
+  font-size: 13px !important;
+  font-weight: 500;
+}
+
+.mat-mdc-card-content {
+  padding: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.mat-mdc-card-avatar {
+  background-color: transparent;
   color: white;
-  font-size: 12px;
-}
-
-input, mat-select {
-  width: 200px;
-}
-
-button {
-  margin-left: 20px;
-}
-
-
-
-.file-container-line {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.file-card-line {
-  width: 300px;
-  flex-shrink: 0;
-  margin-bottom: 16px;
-}
-
-/* Styling for the list layout */
-.file-card-list {
-  margin-bottom: 16px;
-}
-
-.file-card-list mat-card {
-  margin-bottom: 16px;
-}
-
-/* Toggle buttons styles */
-.layout-toggle-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin: 16px;
-}
-
-.layout-toggle-buttons button {
   margin-right: 10px;
+}
+
+.menu-trigger {
+  display: none;
+}
+
+.file-or-folder:hover .menu-trigger {
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.mat-menu-item {
+  font-size: 14px;
 }
 
 footer {

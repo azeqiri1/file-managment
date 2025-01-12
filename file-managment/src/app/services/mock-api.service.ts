@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable,forkJoin, switchMap } from 'rxjs';
+import { Observable,catchError,forkJoin, switchMap } from 'rxjs';
 
 // src/app/folder-node.model.ts
 export interface Subfolder {
@@ -38,12 +38,21 @@ export class MockApiService {
     return this.http.get(`${this.apiUrl}/folders?userId=${userId}`);
   }
 
-  createFolder(newFolder): Observable<any> {
-    return this.http.post(`${this.apiUrl}/folders`, newFolder);
+
+  addFolder(folder: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/folders`, folder);
   }
+  
 
   deleteFolder(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/folders/${id}`);
+  }
+  deleteSubfolder(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/subfolders/${id}`);
+  }
+
+  updateSubfolder(subfolder: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/subfolders/${subfolder.id}`, subfolder);
   }
 
   // DELETE request for deleting multiple folders
@@ -55,23 +64,56 @@ export class MockApiService {
     return forkJoin(deleteRequests);
   }
 
+  getAllSubfolders(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/subfolders`);
+  }
   updateFolderName(folderId: number, updatedFolder: { name: string }): Observable<any> {
     return this.http.patch(`${this.apiUrl}/folders/${folderId}`, updatedFolder);
   }
 
+  updateSubfolderName(folderId: number, updatedFolder: { name: string }): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/subfolders/${folderId}`, updatedFolder);
+  }
 
-  addSubfolder(folderId: number, newSubfolder): Observable<FolderNode> {
-    return this.http.get<FolderNode>(`${this.apiUrl}/folders/${folderId}`).pipe(
-      switchMap((folder: FolderNode) => {
-        folder.subfolders = folder.subfolders || [];
-        folder.subfolders.push(newSubfolder);
-        
-        // Update the folder with the new subfolder
-        return this.http.put<FolderNode>(`${this.apiUrl}/folders/${folderId}`, folder);
-      })
+  getSubfoldersByFolderId(parentId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/subfolders/?parentId=${parentId}`);
+  }
+
+  getFiles(subFolderId): Observable<any> {
+    return this.http.get(`${this.apiUrl}/subfolders/?id=${subFolderId}`);
+  }
+
+  updateParentId(ids: number[], newParentId: number): Observable<any> {
+    const updateRequests = ids.map(id => 
+      this.http.patch(`${this.apiUrl}/subfolders/${id}`, { parentId: newParentId }).pipe(
+        catchError(error => {
+          console.error(`Error updating parentId for item with ID ${id}:`, error);
+          return [];
+        })
+      )
     );
+    return forkJoin(updateRequests);  // Execute all updates concurrently
+  }
+
+
+  deleteMultiple(ids: number[]): Observable<any> {
+    const deleteRequests = ids.map(id => 
+      this.http.delete(`${this.apiUrl}/subfolders/${id}`).pipe(
+        catchError(error => {
+          console.error(`Error deleting item with ID ${id}:`, error);
+          return [];
+        })
+      )
+    );
+    return forkJoin(deleteRequests); // Now using forkJoin
+  }
+  updateFolderPosition(folderId: number, updatedPosition: { position }): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/folders/${folderId}`, updatedPosition);
   }
   
+  addSubfolder( subfolder): Observable<any> {
+    return this.http.post(`${this.apiUrl}/subfolders`, subfolder);
+  }
     // Delete selected files
     deleteFiles(files: any[]): Observable<any> {
       const fileIds = files.map((file) => file.id);

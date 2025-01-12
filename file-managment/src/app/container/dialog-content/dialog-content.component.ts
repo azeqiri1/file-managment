@@ -15,6 +15,7 @@ export class DialogContentComponent {
   fileInfo: any = null;
   filePreview: string | ArrayBuffer | SafeResourceUrl | null = null;
   listFolders: any = [];
+dataToPassFromDialog
   userId: any = JSON.parse(localStorage.getItem('currentUser'));
 
   constructor(
@@ -78,7 +79,6 @@ export class DialogContentComponent {
       }
     }
   }
-
   openPreviewDialog(): void {
     const dialogRef = this.dialog.open(LoadPreviewComponent, {
       data: {
@@ -86,46 +86,40 @@ export class DialogContentComponent {
         filePreview: this.filePreview,
       },
     });
-
+  
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        console.log(result, 'rezi');
         this.fileInfo = result.fileInfo;
         this.filePreview = result.filePreview;
-        this.uploadFile();
+        this.dataToPassFromDialog = result;
+        this.uploadFile();  // Call upload file after the dialog is closed
       }
     });
   }
-
+  
   uploadFile(): void {
-    if (this.selectedFolder && this.fileInfo && this.filePreview) {
+    if (this.fileInfo && this.filePreview) {
       const formData = new FormData();
-      
+  
       // Append the file object directly (not the file info)
       const fileToUpload = this.fileInput.nativeElement.files[0];
       formData.append('file', fileToUpload); // Append the actual file
-      
-      // Append the folderId and timestamp to the form data
-      formData.append('folderId', this.selectedFolder); // Append the selected folder ID
-      formData.append('uploadedAt', new Date().toISOString()); // Add timestamp
+      formData.append('content', JSON.stringify(this.dataToPassFromDialog));  // Convert object to string
+      formData.append('uploadedAt', new Date().toISOString());  // Add timestamp
+  
+      // Log the form data to see its content
       formData.forEach((value, key) => {
-        console.log(key, value);  // Check the contents of the formData object
+        console.log(key, value, 'rozi');  // Check the contents of the formData object
       });
-      // Send POST request to the server
-      this.folderService.uploadFile(formData).subscribe(
-        (response) => {
-          console.log('File uploaded successfully', response);
-          this.close(); // Close dialog after successful upload
-        },
-        (error) => {
-          console.error('Error uploading file', error);
-        }
-      );
+  
+      // Pass back the necessary data after closing the dialog
+      this.dialogRef.close({ formData: formData, fileInfo: this.fileInfo, filePreview: this.filePreview });
     } else {
       console.error('Please select a folder and upload a file.');
     }
   }
   
-
   add(){}
 
   close() {

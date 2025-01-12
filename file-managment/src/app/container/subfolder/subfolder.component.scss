@@ -1,0 +1,114 @@
+
+.main-div{
+    overflow-x: hidden !important;
+      overflow-y: scroll !important;
+      height: 544px;
+    .search-block{
+      .search-in {
+        height: 30px;
+        font-size: 13px;
+      
+        ::ng-deep .mat-mdc-text-field-wrapper {
+          height: 30px;
+          width: 100%;
+        }
+        ::ng-deep .mat-mdc-form-field-infix {
+          margin-top: -13px;
+          margin-left: -10px;
+        }
+      }
+      
+  }
+  header, footer {
+      background-color: transparent;
+      color: white;
+      width: 100%;
+      height: 80px;
+    }
+    
+  /* Styles for Grid and List Views */
+  .grid-view .file-or-folder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px; /* Adds margin between grid items */
+    height: 100%;
+  }
+  
+  .list-view .file-or-folder {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .subfolder-card {
+    width: 100%;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    margin: 10px; /* Adds margin around each card */
+  }
+  
+
+  .subfolder-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .mat-mdc-card-header{
+    background-color: #dfdfdf;
+    padding: 10px;
+  }
+  
+  .mat-mdc-card-title {
+    color: gray;
+    font-size: 13px !important;
+    font-weight: 500;
+  }
+  
+  .mat-mdc-card-content {
+    padding: 10px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .mat-mdc-card-avatar {
+    background-color: transparent;
+    color: white;
+    margin-right: 10px;
+  }
+  
+  .menu-trigger {
+    display: none;
+  }
+  
+  .file-or-folder:hover .menu-trigger {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  .mat-menu-item {
+    font-size: 14px;
+  }
+  
+  footer {
+      position: fixed;
+      bottom: 0;
+  
+     .btn-holder{
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+  
+     ::ng-deep .mat-mdc-fab.mat-accent, .mat-mdc-mini-fab.mat-accent {
+          --mdc-fab-container-color: #3c8dc488;
+          --mdc-fab-icon-color: #fff;
+          --mat-mdc-fab-color: #fff;
+      }
+     }
+    }
+  }

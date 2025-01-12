@@ -8,7 +8,7 @@
   width: 100%;
   height: 100vh;
   display: grid;
-
+overflow-y: hidden !important;
   overflow: hidden;
 
   .spacer {
@@ -177,5 +177,7 @@
   /* Remove any outline from the sidebar */
   mat-sidenav-content {
     outline: none;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
   }
 }
