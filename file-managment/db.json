@@ -54,6 +54,42 @@
       "modifiedDate": "2025-01-12T21:59:35.945Z",
       "userId": 1,
       "name": "test i ri"
+    },
+    {
+      "id": 7,
+      "position": 1,
+      "subfolders": [],
+      "createdDate": "2025-01-12T22:21:50.993Z",
+      "modifiedDate": "2025-01-12T22:21:50.993Z",
+      "userId": 2,
+      "name": "Dosje e re 2"
+    },
+    {
+      "id": 8,
+      "position": 2,
+      "subfolders": [],
+      "createdDate": "2025-01-12T22:21:51.165Z",
+      "modifiedDate": "2025-01-12T22:21:51.165Z",
+      "userId": 2,
+      "name": "Dosje e re 3"
+    },
+    {
+      "id": 9,
+      "position": 3,
+      "subfolders": [],
+      "createdDate": "2025-01-12T22:21:51.328Z",
+      "modifiedDate": "2025-01-12T22:21:51.328Z",
+      "userId": 2,
+      "name": "Dosje e re 4"
+    },
+    {
+      "id": 10,
+      "position": 2,
+      "subfolders": [],
+      "createdDate": "2025-01-12T22:21:51.500Z",
+      "modifiedDate": "2025-01-12T22:21:51.500Z",
+      "userId": 2,
+      "name": "Dosje e re 5"
     }
   ],
   "subfolders": [
@@ -192,14 +228,6 @@
       "id": 23
     },
     {
-      "id": 24,
-      "parentId": 6,
-      "name": "Nen-Dosje e re",
-      "createdBy": "user",
-      "uploadedAt": "2025-01-12T21:58:54.035Z",
-      "files": []
-    },
-    {
       "id": 25,
       "parentId": 3,
       "name": "Nen-Dosje e re",
@@ -285,29 +313,32 @@
     {
       "parentId": "6",
       "name": "Nen-Dosje e re",
-      "position": 7,
-      "createdBy": "user",
-      "uploadedAt": "2025-01-12T22:07:37.514Z",
-      "files": [],
-      "id": 32
-    },
-    {
-      "parentId": "6",
-      "name": "Nen-Dosje e re",
-      "position": 8,
-      "createdBy": "user",
-      "uploadedAt": "2025-01-12T22:07:44.732Z",
-      "files": [],
-      "id": 33
-    },
-    {
-      "parentId": "6",
-      "name": "Nen-Dosje e re",
       "position": 9,
       "createdBy": "user",
       "uploadedAt": "2025-01-12T22:07:45.911Z",
-      "files": [],
+      "files": [
+        {
+          "id": 1736720747871,
+          "name": "Object-oriented_Implementation_of_Chess_Game_in_C.pdf",
+          "size": 936907,
+          "type": "application/pdf",
+          "uploadedAt": "2025-01-12T22:25:47.871Z",
+          "preview": {
+            "changingThisBreaksApplicationSecurity": "blob:http://localhost:4200/f412f082-6989-4a06-a024-f3992603c788"
+          },
+          "parentId": 34
+        }
+      ],
       "id": 34
+    },
+    {
+      "parentId": "6",
+      "name": "Nen-Dosje e re",
+      "position": 7,
+      "createdBy": "user",
+      "uploadedAt": "2025-01-12T22:22:12.690Z",
+      "files": [],
+      "id": 35
     }
   ],
   "shares": [
