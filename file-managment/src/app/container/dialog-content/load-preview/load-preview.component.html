@@ -1,0 +1,35 @@
+<div class="header">
+    <span style="color: white; font-size: 18px" mat-dialog-title
+      >Preview-ja e dokumentit</span
+    >
+    <button mat-button (click)="close()">
+      <mat-icon style="color: white">close</mat-icon>
+    </button>
+  </div>
+<mat-dialog-content>
+  <div *ngIf="fileInfo">
+    <p><strong>Emertimi:</strong> {{ fileInfo.name }}</p>
+    <p><strong>Tipi:</strong> {{ fileInfo.type }}</p>
+    <p><strong>Size:</strong> {{ fileInfo.size }} bytes</p>
+  </div>
+
+  <div *ngIf="filePreview">
+    <div *ngIf="isImageFile">
+      <img [src]="filePreview" alt="Preview" style="max-width: 100%; max-height: 400px;" />
+    </div>
+    <div *ngIf="isTextFile">
+      <pre>{{ filePreview }}</pre>
+    </div>
+
+    <div *ngIf="isSafeResourceUrl">
+      <iframe [src]="filePreview" width="100%" height="400px"></iframe>
+    </div>
+
+    <div *ngIf="!isSafeResourceUrl && !isTextFile && !isImageFile">
+      <p>{{ filePreview }}</p>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions class="actions">
+    <button  mat-raised-button class="dialog-button" (click)="close()">Mbyll</button>
+</mat-dialog-actions>

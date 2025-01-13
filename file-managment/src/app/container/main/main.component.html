@@ -1,0 +1,217 @@
+<div class="main">
+  <header class="header-content">
+    <mat-toolbar class="search-block mat-elevation-z4">
+      <mat-toolbar-row style="padding: 0 5px">
+        <mat-form-field appearance="outline" class="search">
+          <input
+            matInput
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="onSearchChange()"
+            placeholder="Kerko"
+          />
+          <mat-icon style="color: gray; margin-top: -13px" matPrefix
+            >search</mat-icon
+          >
+        </mat-form-field>
+        <button
+          style="position: fixed; right: 35px"
+          mat-icon-button
+          (click)="changeGrid()"
+        >
+          <mat-icon style="color: gray; font-size: 20px">grid_on</mat-icon>
+        </button>
+        <button
+          style="position: fixed; right: 95px"
+          mat-icon-button
+          (click)="changeParent()"
+          *ngIf="showDeleteButton"
+          matTooltip="Zhvendos ne"
+        >
+          <mat-icon style="color: gray; font-size: 20px">redo</mat-icon>
+        </button>
+        <button
+          matToolTip="Fshi"
+          style="position: fixed; right: 65px"
+          mat-icon-button
+          (click)="deleteMultiple()"
+          *ngIf="showDeleteButton"
+        >
+          <mat-icon style="color: gray; font-size: 20px">delete</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </header>
+  <div class="content" style="justify-content: center">
+    <div
+      class="centered"
+      *ngIf="
+        this.subfolders.length === 0 || this.filteredSubfolders.length === 0;
+        else elseBlock
+      "
+    >
+      <div class="logo">
+        <img
+          src="/assets/images/no-data-img.png"
+          alt="Document Management Icon"
+          width="250px"
+          height="250px"
+        />
+      </div>
+    </div>
+    <ng-template #elseBlock>
+      <!-- Grid/List View Toggle Logic -->
+      <div [ngClass]="{ 'grid-view': isGridView, 'list-view': !isGridView }">
+        <!-- Grid View with mat-grid-list -->
+        <mat-grid-list
+          *ngIf="isGridView"
+          cols="4"
+          rowHeight="200px"
+          fxFlex
+          gutterSize="16px"
+          cdkDropList
+          (cdkDropListDropped)="onDrop($event)"
+        >
+          <mat-grid-tile
+            *ngFor="let subfolder of filteredSubfolders; let i = index"
+            class="file-or-folder"
+            cdkDrag
+            [cdkDragData]="subfolder"
+          >
+            <span
+              [matMenuTriggerFor]="rootMenu"
+              [matMenuTriggerData]="{ element: subfolder }"
+              #menuTrigger="matMenuTrigger"
+              class="menu-trigger"
+            ></span>
+            <!-- Root Menu (Context Menu) -->
+            <mat-menu #rootMenu="matMenu" [overlapTrigger]="false">
+              <ng-template matMenuContent let-element="subfolder">
+                <button mat-menu-item (click)="saveNodeSubfolder(subfolder)">
+                  <mat-icon style="color: gray; font-size: 20px">edit</mat-icon>
+                  <span style="color: gray; font-size: 15px">Ri- emero</span>
+                </button>
+                <button mat-menu-item (click)="deleteElement(subfolder)">
+                  <mat-icon style="color: gray; font-size: 20px"
+                    >delete</mat-icon
+                  >
+                  <span style="color: gray; font-size: 15px">Fshi</span>
+                </button>
+              </ng-template>
+            </mat-menu>
+
+            <!-- Card for Subfolder (click)="goToSubfolder(subfolder)"-->
+            <mat-card
+              class="subfolder-card"
+              (contextmenu)="openMenu($event, subfolder, menuTrigger)"
+            >
+              <mat-card-header>
+                <mat-icon mat-card-avatar style="color: gray">folder</mat-icon>
+                <button mat-icon-button (click)="goToSubfolder(subfolder)" matTooltip="Hap">
+                  <mat-icon style="color: gray; font-size: 15px"
+                    >more_vert</mat-icon
+                  >
+                </button>
+                <mat-card-title>
+                  {{ subfolder.name }}
+
+                  <br />
+                  <span style="font-size: 12px; color: darkgray">
+                    Krijuar nga: {{ subfolder.createdBy }}
+                  </span>
+                </mat-card-title>
+                <mat-card-subtitle>
+                  <mat-checkbox
+                    [(ngModel)]="subfolder.checked"
+                    (ngModelChange)="onItemCheckboxChange(subfolder)"
+                  ></mat-checkbox>
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p style="font-size: 12px; font-weight: 500">
+                  Data e krijimit: {{ subfolder.uploadedAt | date }}
+                </p>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <!-- List View for Subfolders -->
+        <div
+          *ngIf="!isGridView"
+          class="list-view"
+          cdkDropList
+          (cdkDropListDropped)="onDrop($event)"
+        >
+          <div
+            *ngFor="let subfolder of filteredSubfolders; let i = index"
+            class="file-or-folder"
+            cdkDrag
+            [cdkDragData]="subfolder"
+          >
+            <span
+              [matMenuTriggerFor]="rootMenu"
+              [matMenuTriggerData]="{ element: subfolder }"
+              #menuTrigger="matMenuTrigger"
+              class="menu-trigger"
+            ></span>
+            <!-- Root Menu (Context Menu) -->
+            <mat-menu #rootMenu="matMenu" [overlapTrigger]="false">
+              <ng-template matMenuContent let-element="subfolder">
+                <button mat-menu-item (click)="saveNodeSubfolder(subfolder)">
+                  <mat-icon style="color: gray; font-size: 20px">edit</mat-icon>
+                  <span style="color: gray; font-size: 15px">Ri- emero</span>
+                </button>
+                <button mat-menu-item (click)="deleteElement(subfolder)">
+                  <mat-icon style="color: gray; font-size: 20px"
+                    >delete</mat-icon
+                  >
+                  <span style="color: gray; font-size: 15px">Fshi</span>
+                </button>
+              </ng-template>
+            </mat-menu>
+            <!-- (click)="goToSubfolder(subfolder)" -->
+            <!-- Card for Subfolder -->
+            <mat-card
+              class="subfolder-card"
+              (contextmenu)="openMenu($event, subfolder, menuTrigger)"
+            >
+              <mat-card-header>
+                <mat-icon mat-card-avatar style="color: gray">folder</mat-icon>
+                <button mat-icon-button (click)="goToSubfolder(subfolder)" matTooltip="Hap">
+                  <mat-icon style="color: gray; font-size: 15px"
+                    >more_vert</mat-icon
+                  >
+                </button>
+                <mat-card-title>
+                  {{ subfolder.name }}
+                  <br />
+                  <span style="font-size: 12px; color: darkgray">
+                    Krijuar nga: {{ subfolder.createdBy }}
+                  </span>
+                </mat-card-title>
+                <mat-card-subtitle>
+                  <mat-checkbox
+                    [(ngModel)]="subfolder.checked"
+                    (ngModelChange)="onItemCheckboxChange(subfolder)"
+                  ></mat-checkbox>
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p style="font-size: 12px; font-weight: 500">
+                  Data e krijimit: {{ subfolder.uploadedAt | date }}
+                </p>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  <footer>
+    <div class="btn-holder">
+      <button mat-fab (click)="addSubfolder()" matTooltip="Shto nje dokument">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </footer>
+</div>
