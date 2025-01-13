@@ -37,7 +37,7 @@ yarn-error.log
 testem.log
 /typings
 *.spec
-/file-managment/file-managment.zip
+/file-managment.zip
 
 
 # System files
